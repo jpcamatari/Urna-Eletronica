@@ -1,22 +1,15 @@
+from crypt import methods
+from typing_extensions import Self
 from model import *
+import sqlite3
+
+conn = sqlite3.connect("UrnaEletronica.db")
+cur = conn.cursor()
+
 
 class DaoPartido:
     @classmethod
-    def salvar(cls, partido):
-        with open('partido.txt', 'a') as arq:
-            arq.writelines(partido)
-            arq.writelines('\n')
-
-class DaoPrefeito:
-    @classmethod
-    def salvar(cls, prefeito):
-        with open('prefeito.txt', 'a') as arq:
-            arq.writelines(prefeito)
-            arq.writelines('\n')
-
-class DaoVereador:
-    @classmethod
-    def salvar(cls, vereador):
-        with open('vereador.txt', 'a') as arq:
-            arq.writelines(vereador)
-            arq.writelines('\n')
+    def salvar(partido: Partido):
+        with conn.execute() as cur:
+            cur.execute(f'INSERT INTO Partido values ("{partido}")')
+        print("Partido Inserido com Sucesso!")
