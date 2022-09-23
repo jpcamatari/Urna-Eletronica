@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from model import Prefeito
+from model import Prefeito, Vereador
 
 def retornaSession():
     USUARIO = "root"
@@ -19,6 +19,28 @@ def retornaSession():
 
 session = retornaSession()
 
-x = Prefeito(nomePrefeito = 'Pedro Marins', numeroPrefeito = 10)
-session.add(x)
-session.commit()
+class Admin():
+    @classmethod
+    def cadastrarPrefeito(cls, nomeCandidato, numeroCandidato):
+        try:
+            prefeito = Prefeito(nomePrefeito = nomeCandidato, numeroPrefeito = numeroCandidato)
+            session.add(prefeito)
+            session.commit()
+            session.rollback()
+            print("Executado")
+        except Exception as e:
+            print(f'Ocorreu um erro: {e}')
+
+
+    @classmethod
+    def cadastrarVereador(cls, nomeCandidato, numeroCandidato):
+        try:
+            vereador = Vereador(nomeVereador = nomeCandidato, numeroVereador = numeroCandidato)
+            session.add(vereador)
+            session.commit()
+            session.rollback()
+            print("Executado")
+        except Exception as e:
+            print(f'Ocorreu um erro: {e}')
+
+Admin.cadastrarPrefeito('Henrique de Andrade', 15)
