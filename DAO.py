@@ -1,15 +1,24 @@
-from crypt import methods
-from typing_extensions import Self
-from model import *
-import sqlite3
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-conn = sqlite3.connect("UrnaEletronica.db")
-cur = conn.cursor()
+from model import Prefeito
 
+def retornaSession():
+    USUARIO = "root"
+    SENHA = "pedromarins"
+    HOST = "35.247.197.93"
+    BANCO = "UrnaEletronica"
+    PORT = "3306"
 
-class DaoPartido:
-    @classmethod
-    def salvar(partido: Partido):
-        with conn.execute() as cur:
-            cur.execute(f'INSERT INTO Partido values ("{partido}")')
-        print("Partido Inserido com Sucesso!")
+    CON = f"mysql+pymysql://{USUARIO}:{SENHA}@{HOST}:{PORT}/{BANCO}"
+
+    engine = create_engine(CON, echo=True)
+    Session = sessionmaker(bind=engine)
+    return Session()
+
+session = retornaSession()
+
+x = Prefeito(nomePrefeito = 'Pedro Marins', numeroPrefeito = 10)
+session.add(x)
+session.commit()

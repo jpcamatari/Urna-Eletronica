@@ -15,6 +15,18 @@ Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
 
+class Prefeito(Base):
+    __tablename__ = "Prefeito"
+    idPrefeito = Column(Integer, primary_key=True)
+    nomePrefeito = Column(String(50))
+    numeroPrefeito = Column(Integer)
+    votosPrefeito = Column(Integer)
+
+class Vereador(Base):
+    __tablename__ = "Vereador"
+    idVereador = Column(Integer, primary_key=True)
+    nomeVereador = Column(String(50))
+    numeroVereador = Column(Integer)
+    votosVereador = Column(Integer)
 
 Base.metadata.create_all(engine)
-
