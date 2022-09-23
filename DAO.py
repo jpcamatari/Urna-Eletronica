@@ -1,8 +1,9 @@
+from re import X
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from model import Prefeito, Vereador
+from model import *
 
 def retornaSession():
     USUARIO = "root"
@@ -43,4 +44,28 @@ class Admin():
         except Exception as e:
             print(f'Ocorreu um erro: {e}')
 
-Admin.cadastrarPrefeito('Henrique de Andrade', 15)
+
+
+class Votar():
+    @classmethod
+    def votarVereador(cls, escolha):
+        try:
+            x = session.query(Vereador).filter(Vereador.numeroVereador == escolha).one()
+            x.votosVereador += 1 
+            session.add(x)
+            session.commit()
+            print('Voto Contabilizado com Sucesso!')
+        except Exception as e:
+            print(f'Ocorreu um erro: {e}')
+
+    @classmethod
+    def votarPrefeito(cls, escolha):
+        try:
+            x = session.query(Prefeito).filter(Prefeito.numeroPrefeito == escolha).one()
+            x.votosPrefeito += 1 
+            session.add(x)
+            session.commit()
+            print('Voto Contabilizado com Sucesso!')
+        except Exception as e:
+            print(f'Ocorreu um erro: {e}')
+
