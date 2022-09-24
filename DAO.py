@@ -44,6 +44,19 @@ class Admin():
         except Exception as e:
             print(f'Ocorreu um erro: {e}')
 
+    @classmethod
+    def mostrarVotosPref(cls):
+        x = session.query(Prefeito).all()
+        for i in x:
+            print(f'Candidado: {i.nomePrefeito} | Votos: {i.votosPrefeito}')
+    
+    @classmethod
+    def mostrarVotosVeri(cls):
+        x = session.query(Vereador).all()
+        for i in x:
+            print(f'Candidado: {i.nomeVereador} | Votos: {i.votosVereador}')
+
+
 
 
 class Votar():

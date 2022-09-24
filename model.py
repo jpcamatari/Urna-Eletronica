@@ -1,3 +1,4 @@
+from email.policy import default
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -20,13 +21,13 @@ class Prefeito(Base):
     idPrefeito = Column(Integer, primary_key=True)
     nomePrefeito = Column(String(50))
     numeroPrefeito = Column(Integer)
-    votosPrefeito = Column(Integer)
+    votosPrefeito = Column(Integer, default=0)
 
 class Vereador(Base):
     __tablename__ = "Vereador"
     idVereador = Column(Integer, primary_key=True)
     nomeVereador = Column(String(50))
     numeroVereador = Column(Integer)
-    votosVereador = Column(Integer)
+    votosVereador = Column(Integer, default=0)
 
 Base.metadata.create_all(engine)
